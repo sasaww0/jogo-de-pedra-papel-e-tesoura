@@ -6,16 +6,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Jogo: Pedra, Papel ou Tesoura</h1>
+  <div class="container">
+    <h1>Pedra, Papel ou Tesoura</h1>
 
-  <div class="choices">
-    <button onclick="play('pedra')">🪨 Pedra</button>
-    <button onclick="play('papel')">📄 Papel</button>
-    <button onclick="play('tesoura')">✂️ Tesoura</button>
+    <div class="choices">
+      <button onclick="play('pedra')">🪨</button>
+      <button onclick="play('papel')">📄</button>
+      <button onclick="play('tesoura')">✂️</button>
+    </div>
+
+    <div class="animation-area">
+      <div id="player-choice" class="choice-box">?</div>
+      <div id="versus">VS</div>
+      <div id="computer-choice" class="choice-box">?</div>
+    </div>
+
+    <div id="result" class="result"></div>
+    <div id="score">Você: 0 | Computador: 0</div>
   </div>
-
-  <div id="result"></div>
-  <div id="score">Você: 0 | Computador: 0</div>
 
   <script src="script.js"></script>
 </body>
