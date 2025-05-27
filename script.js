@@ -1,72 +1,87 @@
-const opcoes = ['pedra', 'papel', 'tesoura'];
-let scorePlayer = 0;
-let scoreComputer = 0;
-
-const playerChoiceBox = document.getElementById('player-choice');
-const computerChoiceBox = document.getElementById('computer-choice');
+const buttons = document.querySelectorAll('.btn');
 const resultDiv = document.getElementById('result');
 const scoreDiv = document.getElementById('score');
+const animationDiv = document.getElementById('animation-container');
 
-function play(jogador) {
-  const computador = opcoes[Math.floor(Math.random() * 3)];
+const options = ['pedra', 'papel', 'tesoura'];
+let playerScore = 0;
+let computerScore = 0;
 
-  mostrarEscolhas(jogador, computador);
-  const resultado = determinarResultado(jogador, computador);
-  exibirResultado(resultado, jogador, computador);
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    const playerChoice = button.dataset.choice;
+    const computerChoice = options[Math.floor(Math.random() * 3)];
+    const outcome = getOutcome(playerChoice, computerChoice);
+
+    playAnimation(playerChoice, computerChoice, outcome);
+    updateScore(outcome);
+    displayResult(outcome, playerChoice, computerChoice);
+  });
+});
+
+function getOutcome(player, computer) {
+  if (player === computer) return 'empate';
+  if (
+    (player === 'pedra' && computer === 'tesoura') ||
+    (player === 'papel' && computer === 'pedra') ||
+    (player === 'tesoura' && computer === 'papel')
+  ) {
+    return 'vitoria';
+  }
+  return 'derrota';
 }
 
-function mostrarEscolhas(jogador, computador) {
+function playAnimation(player, computer, outcome) {
   const emojis = {
     pedra: '🪨',
     papel: '📄',
     tesoura: '✂️'
   };
 
-  playerChoiceBox.textContent = emojis[jogador];
-  computerChoiceBox.textContent = emojis[computador];
-
-  playerChoiceBox.classList.add('animar');
-  computerChoiceBox.classList.add('animar');
-
-  setTimeout(() => {
-    playerChoiceBox.classList.remove('animar');
-    computerChoiceBox.classList.remove('animar');
-  }, 500);
-}
-
-function determinarResultado(j, c) {
-  if (j === c) return 'Empate!';
-  if (
-    (j === 'pedra' && c === 'tesoura') ||
-    (j === 'papel' && c === 'pedra') ||
-    (j === 'tesoura' && c === 'papel')
-  ) {
-    scorePlayer++;
-    return 'Você ganhou!';
+  let message = '';
+  if (outcome === 'empate') {
+    message = `Ambos escolheram ${emojis[player]}. Empate!`;
+  } else if (outcome === 'vitoria') {
+    message = animacaoCombate(player, computer, true);
   } else {
-    scoreComputer++;
-    return 'Você perdeu!';
-  }
-}
-
-function exibirResultado(texto, j, c) {
-  let efeito = '';
-
-  if (texto === 'Empate!') {
-    efeito = `Ambos escolheram ${j}.`;
-  } else if (texto === 'Você ganhou!') {
-    efeito = efeitoVitoria(j, c);
-  } else {
-    efeito = efeitoVitoria(c, j); // Invertido para mostrar o que o computador fez
+    message = animacaoCombate(computer, player, false);
   }
 
-  resultDiv.textContent = `${texto} ${efeito}`;
-  scoreDiv.textContent = `Você: ${scorePlayer} | Computador: ${scoreComputer}`;
+  animationDiv.innerHTML = `<div>${message}</div>`;
 }
 
-function efeitoVitoria(vencedor, perdedor) {
-  if (vencedor === 'pedra' && perdedor === 'tesoura') return 'A pedra quebrou a tesoura.';
-  if (vencedor === 'papel' && perdedor === 'pedra') return 'O papel cobriu a pedra.';
-  if (vencedor === 'tesoura' && perdedor === 'papel') return 'A tesoura cortou o papel.';
-  return '';
+function animacaoCombate(vencedor, perdedor, playerWin) {
+  const acoes = {
+    pedra: { tesoura: 'quebrou' },
+    papel: { pedra: 'cobriu' },
+    tesoura: { papel: 'cortou' }
+  };
+
+  const emojis = {
+    pedra: '🪨',
+    papel: '📄',
+    tesoura: '✂️'
+  };
+
+  const acao = acoes[vencedor]?.[perdedor] || 'venceu';
+
+  const quem = playerWin ? 'Você' : 'O computador';
+  return `${quem} usou ${emojis[vencedor]} e ${acao} ${emojis[perdedor]}.`;
+}
+
+function updateScore(outcome) {
+  if (outcome === 'vitoria') playerScore++;
+  else if (outcome === 'derrota') computerScore++;
+
+  scoreDiv.textContent = `Você: ${playerScore} | Computador: ${computerScore}`;
+}
+
+function displayResult(outcome, player, computer) {
+  const messages = {
+    vitoria: 'Você ganhou!',
+    derrota: 'Você perdeu!',
+    empate: 'Empate!'
+  };
+
+  resultDiv.textContent = messages[outcome];
 }
