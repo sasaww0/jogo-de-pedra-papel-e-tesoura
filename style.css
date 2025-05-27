@@ -1,37 +1,78 @@
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0d1b2a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
   text-align: center;
-  padding: 50px;
-  background-color: #f0f0f0;
+  background-color: #1b263b;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #415a77;
 }
 
 h1 {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  color: #e0e1dd;
 }
 
 .choices button {
-  font-size: 18px;
-  padding: 15px 30px;
-  margin: 10px;
-  cursor: pointer;
+  font-size: 40px;
+  background: #415a77;
   border: none;
-  border-radius: 8px;
-  background-color: #3498db;
-  color: white;
-  transition: 0.3s;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .choices button:hover {
-  background-color: #2980b9;
+  transform: scale(1.1);
+  background-color: #778da9;
 }
 
-#result {
-  margin-top: 30px;
+.animation-area {
+  margin: 40px 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.choice-box {
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1b263b;
+  border: 2px solid #778da9;
+  border-radius: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+#versus {
+  font-size: 30px;
+  color: #e0e1dd;
+}
+
+.result {
   font-size: 24px;
-  font-weight: bold;
+  margin-top: 20px;
+  min-height: 30px;
+  transition: all 0.3s ease;
 }
 
 #score {
-  margin-top: 20px;
-  font-size: 20px;
+  font-size: 18px;
+  margin-top: 15px;
+  color: #e0e1dd;
 }
